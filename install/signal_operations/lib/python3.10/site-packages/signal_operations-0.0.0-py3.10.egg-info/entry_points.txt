@@ -1,0 +1,3 @@
+[console_scripts]
+publisher = signal_operations.publisher_function:main
+

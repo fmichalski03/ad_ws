@@ -1,0 +1,17 @@
+LICENSE
+package.xml
+setup.cfg
+setup.py
+../../build/signal_operations/signal_operations.egg-info/PKG-INFO
+../../build/signal_operations/signal_operations.egg-info/SOURCES.txt
+../../build/signal_operations/signal_operations.egg-info/dependency_links.txt
+../../build/signal_operations/signal_operations.egg-info/entry_points.txt
+../../build/signal_operations/signal_operations.egg-info/requires.txt
+../../build/signal_operations/signal_operations.egg-info/top_level.txt
+../../build/signal_operations/signal_operations.egg-info/zip-safe
+resource/signal_operations
+signal_operations/__init__.py
+signal_operations/publisher_function.py
+test/test_copyright.py
+test/test_flake8.py
+test/test_pep257.py

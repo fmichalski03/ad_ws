@@ -1,0 +1,6 @@
+source;share/signal_operations/hook/pythonpath.ps1
+source;share/signal_operations/hook/pythonpath.dsv
+source;share/signal_operations/hook/pythonpath.sh
+source;share/signal_operations/hook/ament_prefix_path.ps1
+source;share/signal_operations/hook/ament_prefix_path.dsv
+source;share/signal_operations/hook/ament_prefix_path.sh
