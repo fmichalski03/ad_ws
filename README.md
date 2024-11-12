@@ -7,3 +7,11 @@ colcon build
 ```
 souce install/setup.bash
 ```
+## Running subscriber
+```
+ros2 run signal_operations subscriber
+```
+## Running publisher
+```
+ros2 run signal_operations publisher
+```
