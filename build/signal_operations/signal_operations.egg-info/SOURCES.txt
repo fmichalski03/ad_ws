@@ -12,6 +12,7 @@ setup.py
 resource/signal_operations
 signal_operations/__init__.py
 signal_operations/publisher_function.py
+signal_operations/subscriber_function.py
 test/test_copyright.py
 test/test_flake8.py
 test/test_pep257.py
