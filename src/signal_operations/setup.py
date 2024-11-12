@@ -15,7 +15,7 @@ setup(
     zip_safe=True,
     maintainer='filip',
     maintainer_email='filip.michalski.1@student.put.poznan.pl',
-    description='TODO: Package description',
+    description='Package to operate signals',
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={

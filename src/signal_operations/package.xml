@@ -3,7 +3,7 @@
 <package format="3">
   <name>signal_operations</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Package to operate signals</description>
   <maintainer email="filip.michalski.1@student.put.poznan.pl">filip</maintainer>
   <license>Apache-2.0</license>
   
