@@ -2,36 +2,37 @@ import rclpy
 from rclpy.node import Node
 
 from std_msgs.msg import String
+from std_msgs.msg import Float32
 
 
-class MinimalPublisher(Node):
+class SignalPublisher(Node):
 
     def __init__(self):
-        super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(String, 'topic', 10)
+        super().__init__('singal_publisher')
+        self.publisher_ = self.create_publisher(Float32, 'signal', 10)
         timer_period = 0.5  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
 
     def timer_callback(self):
-        msg = String()
-        msg.data = 'Hello World: %d' % self.i
+        msg = Float32()
+        msg.data = 1.0
         self.publisher_.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.get_logger().info('Publishing: "%f"' % msg.data)
         self.i += 1
 
 
 def main(args=None):
     rclpy.init(args=args)
 
-    minimal_publisher = MinimalPublisher()
+    signal_publisher = SignalPublisher()
 
-    rclpy.spin(minimal_publisher)
+    rclpy.spin(signal_publisher)
 
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
-    minimal_publisher.destroy_node()
+    signal_publisher.destroy_node()
     rclpy.shutdown()
 
 
