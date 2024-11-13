@@ -4,3 +4,6 @@ ad_ws_interfaces.egg-info/PKG-INFO
 ad_ws_interfaces.egg-info/SOURCES.txt
 ad_ws_interfaces.egg-info/dependency_links.txt
 ad_ws_interfaces.egg-info/top_level.txt
+ad_ws_interfaces/msg/__init__.py
+ad_ws_interfaces/msg/_signal.py
+ad_ws_interfaces/msg/_xsens.py

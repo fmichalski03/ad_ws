@@ -6,7 +6,13 @@
 module ad_ws_interfaces {
   module msg {
     struct Xsens {
-      uint8 structure_needs_at_least_one_member;
+      float acc_x;
+
+      float acc_y;
+
+      float acc_z;
+
+      float rate_of_turn_x;
     };
   };
 };

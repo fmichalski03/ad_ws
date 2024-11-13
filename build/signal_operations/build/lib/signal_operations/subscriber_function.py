@@ -1,8 +1,7 @@
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import String
-from std_msgs.msg import Float32
+from ad_ws_interfaces.msg import Xsens
 
 
 class XsensSubscriber(Node):
@@ -10,14 +9,14 @@ class XsensSubscriber(Node):
     def __init__(self):
         super().__init__('xsens_subscriber')
         self.subscription = self.create_subscription(
-            Float32,
-            'signal',
+            Xsens,
+            'xsens_node',
             self.listener_callback,
             10)
         self.subscription 
 
     def listener_callback(self, msg):
-        self.get_logger().info('I heard: "%f"' % msg.data)
+        self.get_logger().info('I heard: "%f"' % msg.acc_x)
 
 
 def main(args=None):

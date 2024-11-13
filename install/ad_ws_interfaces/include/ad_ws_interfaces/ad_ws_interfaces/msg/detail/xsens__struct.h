@@ -20,7 +20,10 @@ extern "C"
 /// Struct defined in msg/Xsens in the package ad_ws_interfaces.
 typedef struct ad_ws_interfaces__msg__Xsens
 {
-  uint8_t structure_needs_at_least_one_member;
+  float acc_x;
+  float acc_y;
+  float acc_z;
+  float rate_of_turn_x;
 } ad_ws_interfaces__msg__Xsens;
 
 // Struct for a sequence of ad_ws_interfaces__msg__Xsens.

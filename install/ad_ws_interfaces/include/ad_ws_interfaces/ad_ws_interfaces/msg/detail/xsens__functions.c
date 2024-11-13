@@ -17,7 +17,10 @@ ad_ws_interfaces__msg__Xsens__init(ad_ws_interfaces__msg__Xsens * msg)
   if (!msg) {
     return false;
   }
-  // structure_needs_at_least_one_member
+  // acc_x
+  // acc_y
+  // acc_z
+  // rate_of_turn_x
   return true;
 }
 
@@ -27,7 +30,10 @@ ad_ws_interfaces__msg__Xsens__fini(ad_ws_interfaces__msg__Xsens * msg)
   if (!msg) {
     return;
   }
-  // structure_needs_at_least_one_member
+  // acc_x
+  // acc_y
+  // acc_z
+  // rate_of_turn_x
 }
 
 bool
@@ -36,8 +42,20 @@ ad_ws_interfaces__msg__Xsens__are_equal(const ad_ws_interfaces__msg__Xsens * lhs
   if (!lhs || !rhs) {
     return false;
   }
-  // structure_needs_at_least_one_member
-  if (lhs->structure_needs_at_least_one_member != rhs->structure_needs_at_least_one_member) {
+  // acc_x
+  if (lhs->acc_x != rhs->acc_x) {
+    return false;
+  }
+  // acc_y
+  if (lhs->acc_y != rhs->acc_y) {
+    return false;
+  }
+  // acc_z
+  if (lhs->acc_z != rhs->acc_z) {
+    return false;
+  }
+  // rate_of_turn_x
+  if (lhs->rate_of_turn_x != rhs->rate_of_turn_x) {
     return false;
   }
   return true;
@@ -51,8 +69,14 @@ ad_ws_interfaces__msg__Xsens__copy(
   if (!input || !output) {
     return false;
   }
-  // structure_needs_at_least_one_member
-  output->structure_needs_at_least_one_member = input->structure_needs_at_least_one_member;
+  // acc_x
+  output->acc_x = input->acc_x;
+  // acc_y
+  output->acc_y = input->acc_y;
+  // acc_z
+  output->acc_z = input->acc_z;
+  // rate_of_turn_x
+  output->rate_of_turn_x = input->rate_of_turn_x;
   return true;
 }
 

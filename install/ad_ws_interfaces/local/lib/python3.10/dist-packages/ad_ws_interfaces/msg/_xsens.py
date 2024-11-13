@@ -5,6 +5,10 @@
 
 # Import statements for member types
 
+import builtins  # noqa: E402, I100
+
+import math  # noqa: E402, I100
+
 import rosidl_parser.definition  # noqa: E402, I100
 
 
@@ -53,18 +57,34 @@ class Xsens(metaclass=Metaclass_Xsens):
     """Message class 'Xsens'."""
 
     __slots__ = [
+        '_acc_x',
+        '_acc_y',
+        '_acc_z',
+        '_rate_of_turn_x',
     ]
 
     _fields_and_field_types = {
+        'acc_x': 'float',
+        'acc_y': 'float',
+        'acc_z': 'float',
+        'rate_of_turn_x': 'float',
     }
 
     SLOT_TYPES = (
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
         assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
             'Invalid arguments passed to constructor: %s' % \
             ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        self.acc_x = kwargs.get('acc_x', float())
+        self.acc_y = kwargs.get('acc_y', float())
+        self.acc_z = kwargs.get('acc_z', float())
+        self.rate_of_turn_x = kwargs.get('rate_of_turn_x', float())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -95,9 +115,77 @@ class Xsens(metaclass=Metaclass_Xsens):
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
+        if self.acc_x != other.acc_x:
+            return False
+        if self.acc_y != other.acc_y:
+            return False
+        if self.acc_z != other.acc_z:
+            return False
+        if self.rate_of_turn_x != other.rate_of_turn_x:
+            return False
         return True
 
     @classmethod
     def get_fields_and_field_types(cls):
         from copy import copy
         return copy(cls._fields_and_field_types)
+
+    @builtins.property
+    def acc_x(self):
+        """Message field 'acc_x'."""
+        return self._acc_x
+
+    @acc_x.setter
+    def acc_x(self, value):
+        if __debug__:
+            assert \
+                isinstance(value, float), \
+                "The 'acc_x' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'acc_x' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._acc_x = value
+
+    @builtins.property
+    def acc_y(self):
+        """Message field 'acc_y'."""
+        return self._acc_y
+
+    @acc_y.setter
+    def acc_y(self, value):
+        if __debug__:
+            assert \
+                isinstance(value, float), \
+                "The 'acc_y' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'acc_y' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._acc_y = value
+
+    @builtins.property
+    def acc_z(self):
+        """Message field 'acc_z'."""
+        return self._acc_z
+
+    @acc_z.setter
+    def acc_z(self, value):
+        if __debug__:
+            assert \
+                isinstance(value, float), \
+                "The 'acc_z' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'acc_z' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._acc_z = value
+
+    @builtins.property
+    def rate_of_turn_x(self):
+        """Message field 'rate_of_turn_x'."""
+        return self._rate_of_turn_x
+
+    @rate_of_turn_x.setter
+    def rate_of_turn_x(self, value):
+        if __debug__:
+            assert \
+                isinstance(value, float), \
+                "The 'rate_of_turn_x' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'rate_of_turn_x' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._rate_of_turn_x = value

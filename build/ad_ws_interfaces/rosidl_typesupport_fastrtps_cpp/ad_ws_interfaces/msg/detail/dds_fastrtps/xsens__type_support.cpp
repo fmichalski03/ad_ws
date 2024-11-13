@@ -32,8 +32,14 @@ cdr_serialize(
   const ad_ws_interfaces::msg::Xsens & ros_message,
   eprosima::fastcdr::Cdr & cdr)
 {
-  // Member: structure_needs_at_least_one_member
-  cdr << ros_message.structure_needs_at_least_one_member;
+  // Member: acc_x
+  cdr << ros_message.acc_x;
+  // Member: acc_y
+  cdr << ros_message.acc_y;
+  // Member: acc_z
+  cdr << ros_message.acc_z;
+  // Member: rate_of_turn_x
+  cdr << ros_message.rate_of_turn_x;
   return true;
 }
 
@@ -43,8 +49,17 @@ cdr_deserialize(
   eprosima::fastcdr::Cdr & cdr,
   ad_ws_interfaces::msg::Xsens & ros_message)
 {
-  // Member: structure_needs_at_least_one_member
-  cdr >> ros_message.structure_needs_at_least_one_member;
+  // Member: acc_x
+  cdr >> ros_message.acc_x;
+
+  // Member: acc_y
+  cdr >> ros_message.acc_y;
+
+  // Member: acc_z
+  cdr >> ros_message.acc_z;
+
+  // Member: rate_of_turn_x
+  cdr >> ros_message.rate_of_turn_x;
 
   return true;
 }
@@ -62,9 +77,27 @@ get_serialized_size(
   (void)padding;
   (void)wchar_size;
 
-  // Member: structure_needs_at_least_one_member
+  // Member: acc_x
   {
-    size_t item_size = sizeof(ros_message.structure_needs_at_least_one_member);
+    size_t item_size = sizeof(ros_message.acc_x);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+  // Member: acc_y
+  {
+    size_t item_size = sizeof(ros_message.acc_y);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+  // Member: acc_z
+  {
+    size_t item_size = sizeof(ros_message.acc_z);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+  // Member: rate_of_turn_x
+  {
+    size_t item_size = sizeof(ros_message.rate_of_turn_x);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -92,12 +125,40 @@ max_serialized_size_Xsens(
   is_plain = true;
 
 
-  // Member: structure_needs_at_least_one_member
+  // Member: acc_x
   {
     size_t array_size = 1;
 
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Member: acc_y
+  {
+    size_t array_size = 1;
+
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Member: acc_z
+  {
+    size_t array_size = 1;
+
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Member: rate_of_turn_x
+  {
+    size_t array_size = 1;
+
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
   size_t ret_val = current_alignment - initial_alignment;
@@ -108,7 +169,7 @@ max_serialized_size_Xsens(
     using DataType = ad_ws_interfaces::msg::Xsens;
     is_plain =
       (
-      offsetof(DataType, structure_needs_at_least_one_member) +
+      offsetof(DataType, rate_of_turn_x) +
       last_member_size
       ) == ret_val;
   }

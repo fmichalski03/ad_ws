@@ -31,16 +31,67 @@ void ad_ws_interfaces__msg__Xsens__rosidl_typesupport_introspection_c__Xsens_fin
   ad_ws_interfaces__msg__Xsens__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember ad_ws_interfaces__msg__Xsens__rosidl_typesupport_introspection_c__Xsens_message_member_array[1] = {
+static rosidl_typesupport_introspection_c__MessageMember ad_ws_interfaces__msg__Xsens__rosidl_typesupport_introspection_c__Xsens_message_member_array[4] = {
   {
-    "structure_needs_at_least_one_member",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_UINT8,  // type
+    "acc_x",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(ad_ws_interfaces__msg__Xsens, structure_needs_at_least_one_member),  // bytes offset in struct
+    offsetof(ad_ws_interfaces__msg__Xsens, acc_x),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "acc_y",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(ad_ws_interfaces__msg__Xsens, acc_y),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "acc_z",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(ad_ws_interfaces__msg__Xsens, acc_z),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "rate_of_turn_x",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(ad_ws_interfaces__msg__Xsens, rate_of_turn_x),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -54,7 +105,7 @@ static rosidl_typesupport_introspection_c__MessageMember ad_ws_interfaces__msg__
 static const rosidl_typesupport_introspection_c__MessageMembers ad_ws_interfaces__msg__Xsens__rosidl_typesupport_introspection_c__Xsens_message_members = {
   "ad_ws_interfaces__msg",  // message namespace
   "Xsens",  // message name
-  1,  // number of fields
+  4,  // number of fields
   sizeof(ad_ws_interfaces__msg__Xsens),
   ad_ws_interfaces__msg__Xsens__rosidl_typesupport_introspection_c__Xsens_message_member_array,  // message members
   ad_ws_interfaces__msg__Xsens__rosidl_typesupport_introspection_c__Xsens_init_function,  // function to initialize message memory (memory has to be allocated)

@@ -50,7 +50,42 @@ bool ad_ws_interfaces__msg__xsens__convert_from_py(PyObject * _pymsg, void * _ro
     assert(strncmp("ad_ws_interfaces.msg._xsens.Xsens", full_classname_dest, 33) == 0);
   }
   ad_ws_interfaces__msg__Xsens * ros_message = _ros_message;
-  ros_message->structure_needs_at_least_one_member = 0;
+  {  // acc_x
+    PyObject * field = PyObject_GetAttrString(_pymsg, "acc_x");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->acc_x = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
+  {  // acc_y
+    PyObject * field = PyObject_GetAttrString(_pymsg, "acc_y");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->acc_y = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
+  {  // acc_z
+    PyObject * field = PyObject_GetAttrString(_pymsg, "acc_z");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->acc_z = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
+  {  // rate_of_turn_x
+    PyObject * field = PyObject_GetAttrString(_pymsg, "rate_of_turn_x");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->rate_of_turn_x = (float)PyFloat_AS_DOUBLE(field);
+    Py_DECREF(field);
+  }
 
   return true;
 }
@@ -72,7 +107,51 @@ PyObject * ad_ws_interfaces__msg__xsens__convert_to_py(void * raw_ros_message)
       return NULL;
     }
   }
-  (void)raw_ros_message;
+  ad_ws_interfaces__msg__Xsens * ros_message = (ad_ws_interfaces__msg__Xsens *)raw_ros_message;
+  {  // acc_x
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->acc_x);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "acc_x", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // acc_y
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->acc_y);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "acc_y", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // acc_z
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->acc_z);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "acc_z", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // rate_of_turn_x
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->rate_of_turn_x);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "rate_of_turn_x", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
 
   // ownership of _pymessage is transferred to the caller
   return _pymessage;

@@ -38,7 +38,10 @@ struct Xsens_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->structure_needs_at_least_one_member = 0;
+      this->acc_x = 0.0f;
+      this->acc_y = 0.0f;
+      this->acc_z = 0.0f;
+      this->rate_of_turn_x = 0.0f;
     }
   }
 
@@ -48,15 +51,52 @@ struct Xsens_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->structure_needs_at_least_one_member = 0;
+      this->acc_x = 0.0f;
+      this->acc_y = 0.0f;
+      this->acc_z = 0.0f;
+      this->rate_of_turn_x = 0.0f;
     }
   }
 
   // field types and members
-  using _structure_needs_at_least_one_member_type =
-    uint8_t;
-  _structure_needs_at_least_one_member_type structure_needs_at_least_one_member;
+  using _acc_x_type =
+    float;
+  _acc_x_type acc_x;
+  using _acc_y_type =
+    float;
+  _acc_y_type acc_y;
+  using _acc_z_type =
+    float;
+  _acc_z_type acc_z;
+  using _rate_of_turn_x_type =
+    float;
+  _rate_of_turn_x_type rate_of_turn_x;
 
+  // setters for named parameter idiom
+  Type & set__acc_x(
+    const float & _arg)
+  {
+    this->acc_x = _arg;
+    return *this;
+  }
+  Type & set__acc_y(
+    const float & _arg)
+  {
+    this->acc_y = _arg;
+    return *this;
+  }
+  Type & set__acc_z(
+    const float & _arg)
+  {
+    this->acc_z = _arg;
+    return *this;
+  }
+  Type & set__rate_of_turn_x(
+    const float & _arg)
+  {
+    this->rate_of_turn_x = _arg;
+    return *this;
+  }
 
   // constant declarations
 
@@ -100,7 +140,16 @@ struct Xsens_
   // comparison operators
   bool operator==(const Xsens_ & other) const
   {
-    if (this->structure_needs_at_least_one_member != other.structure_needs_at_least_one_member) {
+    if (this->acc_x != other.acc_x) {
+      return false;
+    }
+    if (this->acc_y != other.acc_y) {
+      return false;
+    }
+    if (this->acc_z != other.acc_z) {
+      return false;
+    }
+    if (this->rate_of_turn_x != other.rate_of_turn_x) {
       return false;
     }
     return true;
