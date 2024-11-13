@@ -1,0 +1,12 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from ad_ws_interfaces/msg/Signal.msg
+// generated code does not contain a copyright notice
+
+
+module ad_ws_interfaces {
+  module msg {
+    struct Signal {
+      float value;
+    };
+  };
+};

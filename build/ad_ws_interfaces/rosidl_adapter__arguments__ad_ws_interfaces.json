@@ -1,0 +1,7 @@
+{
+  "package_name": "ad_ws_interfaces",
+  "non_idl_tuples": [
+    "/home/filip/ad_ws/src/ad_ws_interfaces:msg/Xsens.msg",
+    "/home/filip/ad_ws/src/ad_ws_interfaces:msg/Signal.msg"
+  ]
+}

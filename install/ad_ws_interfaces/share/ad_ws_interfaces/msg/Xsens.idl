@@ -1,0 +1,12 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from ad_ws_interfaces/msg/Xsens.msg
+// generated code does not contain a copyright notice
+
+
+module ad_ws_interfaces {
+  module msg {
+    struct Xsens {
+      uint8 structure_needs_at_least_one_member;
+    };
+  };
+};
