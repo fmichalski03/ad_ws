@@ -1,0 +1,29 @@
+[31mCMake Error at CMakeLists.txt:11 (find_package):
+  By not providing "Findament_cmake.cmake" in CMAKE_MODULE_PATH this project
+  has asked CMake to find a package configuration file provided by
+  "ament_cmake", but CMake did not find one.
+
+  Could not find a package configuration file provided by "ament_cmake" with
+  any of the following names:
+
+    ament_cmakeConfig.cmake
+    ament_cmake-config.cmake
+
+  Add the installation prefix of "ament_cmake" to CMAKE_PREFIX_PATH or set
+  "ament_cmake_DIR" to a directory containing one of the above files.  If
+  "ament_cmake" provides a separate development package or SDK, be sure it
+  has been installed.
+
+[0m
+[33mCMake Warning (dev) in CMakeLists.txt:
+  No cmake_minimum_required command is present.  A line of code such as
+
+    cmake_minimum_required(VERSION 3.22)
+
+  should be added at the top of the file.  The version specified may be lower
+  if you wish to support older CMake versions for this project.  For more
+  information run "cmake --help-policy CMP0000".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+[0m
+-- Configuring incomplete, errors occurred!
+See also "/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver/CMakeFiles/CMakeOutput.log".

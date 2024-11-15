@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 
 from ad_ws_interfaces.msg import Xsens
+from geometry_msgs.msg import Vector3Stamped
 
 
 class XsensSubscriber(Node):
@@ -9,14 +10,14 @@ class XsensSubscriber(Node):
     def __init__(self):
         super().__init__('xsens_subscriber')
         self.subscription = self.create_subscription(
-            Xsens,
-            'xsens_node',
+            Vector3Stamped,
+            'imu/angular_velocity',
             self.listener_callback,
             10)
         self.subscription 
 
     def listener_callback(self, msg):
-        self.get_logger().info('I heard: "%f"' % msg.acc_x)
+        self.get_logger().info('I heard: "%f"'% msg.vector.x)
 
 
 def main(args=None):

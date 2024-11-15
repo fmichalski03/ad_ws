@@ -1,0 +1,2 @@
+Invoking command in '/home/filip/ad_ws/build/ad_ws_interfaces': /usr/bin/cmake --build /home/filip/ad_ws/build/ad_ws_interfaces -- -j16 -l16
+Invoked command in '/home/filip/ad_ws/build/ad_ws_interfaces' returned '0': /usr/bin/cmake --build /home/filip/ad_ws/build/ad_ws_interfaces -- -j16 -l16

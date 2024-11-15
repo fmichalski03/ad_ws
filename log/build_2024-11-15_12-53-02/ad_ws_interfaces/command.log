@@ -1,0 +1,4 @@
+Invoking command in '/home/filip/ad_ws/build/ad_ws_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/filip/ad_ws/install/signal_operations:/opt/ros/humble /usr/bin/cmake --build /home/filip/ad_ws/build/ad_ws_interfaces -- -j16 -l16
+Invoked command in '/home/filip/ad_ws/build/ad_ws_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/filip/ad_ws/install/signal_operations:/opt/ros/humble /usr/bin/cmake --build /home/filip/ad_ws/build/ad_ws_interfaces -- -j16 -l16
+Invoking command in '/home/filip/ad_ws/build/ad_ws_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/filip/ad_ws/install/signal_operations:/opt/ros/humble /usr/bin/cmake --install /home/filip/ad_ws/build/ad_ws_interfaces
+Invoked command in '/home/filip/ad_ws/build/ad_ws_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/filip/ad_ws/install/signal_operations:/opt/ros/humble /usr/bin/cmake --install /home/filip/ad_ws/build/ad_ws_interfaces

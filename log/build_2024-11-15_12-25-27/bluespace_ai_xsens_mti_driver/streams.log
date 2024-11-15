@@ -1,0 +1,82 @@
+[0.006s] Invoking command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble:/home/filip/ad_ws/install/signal_operations /usr/bin/cmake /home/filip/ad_ws/src/bluespace_ai_xsens_ros_mti_driver-ros2_0_galactic -DCMAKE_INSTALL_PREFIX=/home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver
+[0.010s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.010s]   Compatibility with CMake < 2.8.12 will be removed from a future version of
+[0.010s]   CMake.
+[0.010s] 
+[0.010s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.010s]   CMake that the project does not need compatibility with older versions.
+[0.010s] 
+[0.010s] [0m
+[0.013s] -- Found ament_cmake: 1.3.10 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.203s] -- Found rclcpp: 16.0.10 (/opt/ros/humble/share/rclcpp/cmake)
+[0.222s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.223s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.229s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.240s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.252s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.277s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.278s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.403s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.504s] -- Found tf2: 0.25.8 (/opt/ros/humble/share/tf2/cmake)
+[0.525s] -- Found tf2_ros: 0.25.8 (/opt/ros/humble/share/tf2_ros/cmake)
+[0.586s] -- Found sensor_msgs: 4.2.4 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.600s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.685s] -- Added test 'copyright' to check source files copyright and LICENSE
+[0.700s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[0.701s] -- Configured cppcheck include dirs: $<BUILD_INTERFACE:/home/filip/ad_ws/src/bluespace_ai_xsens_ros_mti_driver-ros2_0_galactic/lib/xspublic>
+[0.701s] -- Configured cppcheck exclude dirs and/or files: 
+[0.715s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[0.715s] -- Configured cpplint exclude dirs and/or files: 
+[0.717s] -- Added test 'flake8' to check Python code syntax and style conventions
+[0.721s] -- Added test 'lint_cmake' to check CMake code style
+[0.724s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[0.740s] -- Added test 'uncrustify' to check C / C++ code style
+[0.740s] -- Configured uncrustify additional arguments: 
+[0.743s] -- Added test 'xmllint' to check XML markup files
+[0.744s] -- Configuring done
+[0.764s] -- Generating done
+[0.766s] -- Build files have been written to: /home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver
+[0.835s] Invoked command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble:/home/filip/ad_ws/install/signal_operations /usr/bin/cmake /home/filip/ad_ws/src/bluespace_ai_xsens_ros_mti_driver-ros2_0_galactic -DCMAKE_INSTALL_PREFIX=/home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver
+[0.835s] Invoking command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble:/home/filip/ad_ws/install/signal_operations /usr/bin/cmake --build /home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver -- -j16 -l16
+[0.901s] [ 25%] [32mBuilding CXX object CMakeFiles/xsens_mti_node.dir/src/main.cpp.o[0m
+[0.902s] [ 50%] [32mBuilding CXX object CMakeFiles/xsens_mti_node.dir/src/xdainterface.cpp.o[0m
+[0.903s] [ 75%] [32mBuilding CXX object CMakeFiles/xsens_mti_node.dir/src/xdacallback.cpp.o[0m
+[5.320s] [100%] [32m[1mLinking CXX executable xsens_mti_node[0m
+[5.322s] make[3]: warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
+[32.492s] make[3]: Circular libxscommon <- libxscommon dependency dropped.
+[37.109s] [100%] Built target xsens_mti_node
+[37.117s] Invoked command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble:/home/filip/ad_ws/install/signal_operations /usr/bin/cmake --build /home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver -- -j16 -l16
+[37.152s] Invoking command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble:/home/filip/ad_ws/install/signal_operations /usr/bin/cmake --install /home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver
+[37.161s] -- Install configuration: ""
+[37.162s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/lib/bluespace_ai_xsens_mti_driver/xsens_mti_node
+[37.168s] -- Set runtime path of "/home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/lib/bluespace_ai_xsens_mti_driver/xsens_mti_node" to ""
+[37.168s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/launch
+[37.168s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/launch/display.launch.py
+[37.168s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/launch/xsens_mti_node.launch.py
+[37.168s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/param
+[37.168s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/param/xsens_mti_node.yaml
+[37.168s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/rviz
+[37.168s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/rviz/display.rviz
+[37.168s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/urdf
+[37.168s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/urdf/MTi_6xx.urdf
+[37.169s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/urdf/MTi_1.stl
+[37.169s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/urdf/MTi_1.urdf
+[37.169s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/urdf/MTi_10.urdf
+[37.169s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/urdf/MTi_6xx.stl
+[37.173s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/urdf/MTi_10.stl
+[37.177s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/ament_index/resource_index/package_run_dependencies/bluespace_ai_xsens_mti_driver
+[37.177s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/ament_index/resource_index/parent_prefix_path/bluespace_ai_xsens_mti_driver
+[37.177s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/environment/ament_prefix_path.sh
+[37.177s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/environment/ament_prefix_path.dsv
+[37.177s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/environment/path.sh
+[37.177s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/environment/path.dsv
+[37.177s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/local_setup.bash
+[37.178s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/local_setup.sh
+[37.178s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/local_setup.zsh
+[37.178s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/local_setup.dsv
+[37.178s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/package.dsv
+[37.178s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/ament_index/resource_index/packages/bluespace_ai_xsens_mti_driver
+[37.178s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/cmake/bluespace_ai_xsens_mti_driverConfig.cmake
+[37.178s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/cmake/bluespace_ai_xsens_mti_driverConfig-version.cmake
+[37.178s] -- Installing: /home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver/share/bluespace_ai_xsens_mti_driver/package.xml
+[37.181s] Invoked command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble:/home/filip/ad_ws/install/signal_operations /usr/bin/cmake --install /home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver

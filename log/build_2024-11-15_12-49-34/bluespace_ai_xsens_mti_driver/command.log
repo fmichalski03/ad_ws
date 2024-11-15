@@ -1,0 +1,4 @@
+Invoking command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver -- -j16 -l16
+Invoked command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver -- -j16 -l16
+Invoking command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver
+Invoked command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver

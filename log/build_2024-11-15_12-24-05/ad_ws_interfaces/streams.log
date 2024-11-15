@@ -1,0 +1,23 @@
+[0.006s] Invoking command in '/home/filip/ad_ws/build/ad_ws_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/filip/ad_ws/install/signal_operations /usr/bin/cmake --build /home/filip/ad_ws/build/ad_ws_interfaces -- -j16 -l16
+[0.068s] [  2%] Built target ad_ws_interfaces__cpp
+[0.070s] [ 12%] Built target ad_ws_interfaces__rosidl_generator_c
+[0.087s] [ 12%] Built target ament_cmake_python_copy_ad_ws_interfaces
+[0.102s] [ 23%] Built target ad_ws_interfaces__rosidl_typesupport_c
+[0.102s] [ 33%] Built target ad_ws_interfaces__rosidl_typesupport_cpp
+[0.104s] [ 43%] Built target ad_ws_interfaces__rosidl_typesupport_introspection_c
+[0.104s] [ 53%] Built target ad_ws_interfaces__rosidl_typesupport_fastrtps_c
+[0.105s] [ 64%] Built target ad_ws_interfaces__rosidl_typesupport_fastrtps_cpp
+[0.108s] [ 74%] Built target ad_ws_interfaces__rosidl_typesupport_introspection_cpp
+[0.138s] [ 74%] Built target ad_ws_interfaces
+[0.166s] [ 76%] Built target ad_ws_interfaces__py
+[0.195s] [ 84%] Built target ad_ws_interfaces__rosidl_generator_py
+[0.224s] [ 89%] Built target ad_ws_interfaces__rosidl_typesupport_introspection_c__pyext
+[0.226s] [ 94%] Built target ad_ws_interfaces__rosidl_typesupport_fastrtps_c__pyext
+[0.227s] [100%] Built target ad_ws_interfaces__rosidl_typesupport_c__pyext
+[0.292s] running egg_info
+[0.293s] writing ad_ws_interfaces.egg-info/PKG-INFO
+[0.293s] writing dependency_links to ad_ws_interfaces.egg-info/dependency_links.txt
+[0.293s] writing top-level names to ad_ws_interfaces.egg-info/top_level.txt
+[0.294s] reading manifest file 'ad_ws_interfaces.egg-info/SOURCES.txt'
+[0.294s] writing manifest file 'ad_ws_interfaces.egg-info/SOURCES.txt'
+[0.311s] [100%] Built target ament_cmake_python_build_ad_ws_interfaces_egg
