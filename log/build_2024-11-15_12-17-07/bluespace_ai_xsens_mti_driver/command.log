@@ -1,2 +1,0 @@
-Invoking command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver': /usr/bin/cmake /home/filip/ad_ws/src/bluespace_ai_xsens_ros_mti_driver-ros2_0_galactic -DCMAKE_INSTALL_PREFIX=/home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver
-Invoked command in '/home/filip/ad_ws/build/bluespace_ai_xsens_mti_driver' returned '1': /usr/bin/cmake /home/filip/ad_ws/src/bluespace_ai_xsens_ros_mti_driver-ros2_0_galactic -DCMAKE_INSTALL_PREFIX=/home/filip/ad_ws/install/bluespace_ai_xsens_mti_driver

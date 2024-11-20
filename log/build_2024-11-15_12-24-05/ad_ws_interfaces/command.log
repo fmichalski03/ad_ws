@@ -1,1 +1,0 @@
-Invoking command in '/home/filip/ad_ws/build/ad_ws_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/filip/ad_ws/install/signal_operations /usr/bin/cmake --build /home/filip/ad_ws/build/ad_ws_interfaces -- -j16 -l16
