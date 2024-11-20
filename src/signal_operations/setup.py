@@ -21,7 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
                 'publisher = signal_operations.publisher_function:main',
-                'subsriber = signal_operations.subscriber_function:main',
+                'subscriber = signal_operations.subscriber_function:main',
         ],
     },
 )

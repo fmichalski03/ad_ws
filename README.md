@@ -7,6 +7,10 @@ colcon build
 ```
 souce install/setup.bash
 ```
+## Launch entire workspace
+```
+ros2 launch launch/ad_ws.launch.py
+```
 ## Running subscriber
 ```
 ros2 run signal_operations subscriber
