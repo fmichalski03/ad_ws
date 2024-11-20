@@ -17,7 +17,9 @@ class XsensSubscriber(Node):
         self.subscription 
 
     def listener_callback(self, msg):
-        self.get_logger().info('I heard: "%f"'% msg.vector.x)
+        self.get_logger().info('Angular velocity x: "%f"'% msg.vector.x)
+        self.get_logger().info('Angular velocity y: "%f"'% msg.vector.y)
+        self.get_logger().info('Angular velocity z: "%f"'% msg.vector.z)
 
 
 def main(args=None):
