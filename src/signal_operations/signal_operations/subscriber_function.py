@@ -1,59 +1,67 @@
 import rclpy
 from rclpy.node import Node
 
-from ad_ws_interfaces.msg import Xsens
-from geometry_msgs.msg import Vector3Stamped
-from geometry_msgs.msg import PoseStamped
 from control_interfaces.msg import ServoState
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
+from vesc_msgs.msg import VescStateStamped
 
-
-class XsensSubscriber(Node):
-
-    def __init__(self):
-        super().__init__('xsens_subscriber')
-        self.subscription = self.create_subscription(
-            PoseStamped,
-            'optitrack/rigid_body_0',
-            self.listener_callback,
-            10)
-        self.subscription 
-
-    def listener_callback(self, msg):
-        self.get_logger().info('Angular velocity x: "%f"'% msg.vector.x)
-        self.get_logger().info('Angular velocity y: "%f"'% msg.vector.y)
-        self.get_logger().info('Angular velocity z: "%f"'% msg.vector.z)
 
 class ServoSubscriber(Node):
     def __init__(self):
         super().__init__('servo_subscriber')
+
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.BEST_EFFORT,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=10  
+        )
+
         self.subscription = self.create_subscription(
             ServoState,
             'pub_position',
             self.listener_callback,
-            10)
-        self.subscription 
+            qos_profile
+        )
 
     def listener_callback(self, msg):
-        self.get_logger().info('Angular velocity x: "%f"'% msg.vector.x)
-        self.get_logger().info('Angular velocity y: "%f"'% msg.vector.y)
-        self.get_logger().info('Angular velocity z: "%f"'% msg.vector.z)
+        self.get_logger().info('Position: "%f"' % msg.position)
+        self.get_logger().info('Velocity: "%f"' % msg.velocity)
+        self.get_logger().info('Torque: "%f"' % msg.torque) 
 
+class StateSubscriber(Node):
+    def __init__(self):
+        super().__init__('state_subscriber')
+
+        qos_profile = QoSProfile(
+            reliability=ReliabilityPolicy.BEST_EFFORT,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=10  
+        )
+
+        self.subscription = self.create_subscription(
+            VescStateStamped,
+            'vesc/core',
+            self.listener_callback,
+            qos_profile
+        )
+
+    def listener_callback(self, msg):
+        self.get_logger().info('Motor current: "%f"' % msg.state.current_motor)
+        self.get_logger().info('Speed: "%f"' % msg.state.speed)
+        self.get_logger().info('Voltage input: "%f"' % msg.state.voltage_input) 
 
 
 def main(args=None):
     rclpy.init(args=args)
 
-    xsens_subscriber = XsensSubscriber()
-    servo_subscriber = XsensSubscriber()
+    servo_subscriber = ServoSubscriber()
+    state_subscriber = StateSubscriber()
 
-    rclpy.spin(xsens_subscriber)
     rclpy.spin(servo_subscriber)
+    rclpy.spin(state_subscriber)
 
-    # Destroy the node explicitly
-    # (optional - otherwise it will be done automatically
-    # when the garbage collector destroys the node object)
-    xsens_subscriber.destroy_node()
     servo_subscriber.destroy_node()
+    state_subscriber.destroy_node()
     rclpy.shutdown()
 
 
