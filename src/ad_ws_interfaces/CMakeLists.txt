@@ -14,6 +14,8 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Xsens.msg"
   "msg/Signal.msg"
+  "msg/AckermannDrive.msg"
+  "msg/AckermannDriveStamped.msg"
 )
 
 ament_package()
