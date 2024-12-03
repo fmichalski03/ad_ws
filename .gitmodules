@@ -4,3 +4,7 @@
 [submodule "src/control_interfaces"]
 	path = src/control_interfaces
 	url = https://github.com/F1tenth-Project-Lutututu/control_interfaces.git
+[submodule "src/ackermann_msgs"]
+	path = src/ackermann_msgs
+	url = https://github.com/ros-drivers/ackermann_msgs.git
+	branch = ros2
