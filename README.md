@@ -1,4 +1,14 @@
 # ad_ws
+## Instal ROS2 Humble
+[link](https://docs.ros.org/en/humble/Installation.html)
+## Clone repository
+```
+git clone --recursive-submodules git@github.com:fmichalski03/ad_ws.git
+```
+## Source ROS2
+```
+source /opt/ros/humble/setup.bash
+```
 ## Building workspace
 ```
 colcon build
