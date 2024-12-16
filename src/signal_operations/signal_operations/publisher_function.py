@@ -4,6 +4,7 @@ from rclpy.node import Node
 from ad_ws_interfaces.msg import Xsens
 from control_interfaces.msg import Control
 import numpy as np
+from signal_operations.generate_signal import generate_control_points
 
 
 def generate_signal():
