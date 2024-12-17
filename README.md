@@ -1,4 +1,9 @@
 # ad_ws
+## ROS2 workspace for ambedded systems project
+### FIlip Michalski
+### Piotr Laskowski
+### Paweł Mazurkiewicz
+### Kewin Jankowski
 ## Instal ROS2 Humble
 [link](https://docs.ros.org/en/humble/Installation.html)
 ## Clone repository
