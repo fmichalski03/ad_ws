@@ -23,3 +23,11 @@ ros2 run signal_operations publisher
 ```
 ros2 run rqt_graph rqt_graph
 ```
+## Run backend
+```
+uvicorn app.main:app --reload
+```
+## Run bag file
+```
+ros2 bag play <bag file>
+```
