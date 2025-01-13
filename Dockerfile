@@ -1,26 +1,35 @@
-# Używamy obrazu bazowego dla ROS2 Humble
+# Wybór oficjalnego obrazu ROS2
 FROM osrf/ros:humble-desktop
 
-# Ustaw zmienną środowiskową dla implementacji komunikacji
-ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+# Ustaw zmienne środowiskowe
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ROS2_WORKSPACE=/ros2_ws
 
-# Aktualizacja systemu i instalacja zależności (jeśli potrzebne)
-# RUN apt-get update && apt-get install -y \
-#     python3-pip \
-#     build-essential \
-#     && rm -rf /var/lib/apt/lists/*
+# Instalacja wymaganych pakietów
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    python3-pip \
+    python3-colcon-common-extensions \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Skopiowanie workspace do obrazu
-COPY ./ros2_ws /ros2_ws
+# Instalacja dodatkowych zależności Python, jeśli wymagane
+RUN pip3 install --upgrade pip && pip3 install \
+    argcomplete \
+    setuptools \
+    empy \
+    pytest \
+    flake8
 
-# Ustawienie katalogu roboczego
-WORKDIR /ros2_ws
+# Kopiowanie workspace do kontenera
+COPY ./ros2_ws $ROS2_WORKSPACE
 
-# Budowanie workspace (jeśli używasz colcona)
-RUN apt-get update && \
-    rosdep update && \
-    rosdep install --from-paths src --ignore-src -r -y && \
-    colcon build
+# Ustawienia katalogu roboczego
+WORKDIR $ROS2_WORKSPACE
 
-# Ustawienie domyślnego polecenia (bash w tym przypadku)
-CMD ["/bin/bash"]
+# Budowanie workspace
+RUN /bin/bash -c "source /opt/ros/humble/setup.bash && colcon build"
+
+# Ustawienie punktu wejścia dla kontenera
+ENTRYPOINT ["/bin/bash", "-c", "source /opt/ros/humble/setup.bash && source $ROS2_WORKSPACE/install/setup.bash && bash"]
