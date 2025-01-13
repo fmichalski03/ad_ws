@@ -1,0 +1,30 @@
+services:
+  ros2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ros2_container
+    volumes:
+      - ./ros2_ws:/ros2_ws
+    environment:
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+    working_dir: /ros2_ws
+    tty: true
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb_container
+    ports:
+      - "8087:8087"
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=password
+      - DOCKER_INFLUXDB_INIT_ORG=my_org
+      - DOCKER_INFLUXDB_INIT_BUCKET=my_bucket
+      - DOCKER_INFLUXDB_INIT_RETENTION=7d
+
+volumes:
+  influxdb_data:
