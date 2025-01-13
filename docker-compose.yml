@@ -1,9 +1,9 @@
+version: "3.9"
 services:
   ros2:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: osrf/ros:humble-desktop
     container_name: ros2_container
+    command: /bin/bash
     volumes:
       - ./ros2_ws:/ros2_ws
     environment:
