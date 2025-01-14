@@ -1,19 +1,34 @@
-# Wybierz obraz bazowy dla ROS2
-FROM osrf/ros:humble-desktop
+# Użyj oficjalnego obrazu ROS 2 Humble jako bazowego
+FROM ros:humble
 
-# Zainstaluj dodatkowe pakiety, np. curl do InfluxDB
-RUN apt-get update && apt-get install -y \
-    curl python3-colcon-common-extensions \
-    && rm -rf /var/lib/apt/lists/*
+# Ustawienie zmiennych środowiskowych dla ROS
+ENV DEBIAN_FRONTEND=noninteractive \
+    ROS_DISTRO=humble \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8
 
-# Skopiuj pliki projektu do kontenera
-COPY /src /workspace
-WORKDIR /workspace
+# Zainstaluj narzędzia i zależności
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    wget \
+    git \
+    build-essential \
+    python3-colcon-common-extensions \
+    python3-pip \
+    && apt-get clean
+
+# Zainstaluj Python SDK dla InfluxDB
+RUN pip3 install influxdb-client
+
+# Ustaw katalog roboczy
+WORKDIR /ros2_ws
+
+# Skopiuj pliki workspace do obrazu
+COPY . /ros2_ws
+
+RUN rosdep install --from-paths ros2_ws/src --ignore-src -r -y
 
 
-# Zbuduj workspace ROS2
-# RUN colcon build
-
-# Ustaw domyślne środowisko ROS2
-# ENTRYPOINT ["/bin/bash", "-c", "source /opt/ros/humble/setup.sh && source /workspace/install/setup.sh && exec \"$@\""]
+# Ustawienie domyślnego punktu startowego
 CMD ["bash"]
+

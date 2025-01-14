@@ -1,27 +1,40 @@
+version: '3.8'
+
 services:
-  ros2:
-    command: tail -f /dev/null
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - .:/workspace
-    network_mode: "host"
+  ros2_workspace:
+    build: .
+    container_name: ros2_humble_influxdb
     environment:
-      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - ROS_DOMAIN_ID=0
+      - INFLUXDB_URL=http://influxdb:8087
+      - INFLUXDB_TOKEN=my-secret-token
+      - INFLUXDB_ORG=my-org
+      - INFLUXDB_BUCKET=my-bucket
+    volumes:
+      - ./ros2_ws:/ros2_ws
+    networks:
+      - ros_influxdb_network
+    command: ["bash", "-c", "tail -f /dev/null"]
 
   influxdb:
     image: influxdb:2.7
     container_name: influxdb
-    ports:
-      - "8087:8086"
-    volumes:
-      - influxdb_data:/var/lib/influxdb2
     environment:
       - INFLUXDB_ADMIN_USER=admin
-      - INFLUXDB_ADMIN_PASSWORD=admin123
-      - INFLUXDB_BUCKET=mybucket
-      - INFLUXDB_ORG=myorg
+      - INFLUXDB_ADMIN_PASSWORD=admin
+      - INFLUXDB_INIT_ORG=my-org
+      - INFLUXDB_INIT_BUCKET=my-bucket
+      - INFLUXDB_INIT_PASSWORD=my-secret-password
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    ports:
+      - "8087:8086"
+    networks:
+      - ros_influxdb_network
 
 volumes:
   influxdb_data:
+
+networks:
+  ros_influxdb_network:
+    driver: bridge
