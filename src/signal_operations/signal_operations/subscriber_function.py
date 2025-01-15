@@ -9,18 +9,32 @@ from control_interfaces.msg import ServoState
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
 from vesc_msgs.msg import VescStateStamped
 
+from scipy.signal import butter, filtfilt
+
+class ButterworthFilter:
+    def __init__(self, cutoff, fs, order=4):
+        self.cutoff = cutoff
+        self.fs = fs
+        self.order = order
+        self.b, self.a = butter(order, cutoff / (0.5 * fs), btype='low', analog=False)
+
+    def apply(self, data):
+        return filtfilt(self.b, self.a, data)
+
+
 class ServoSubscriber(Node):
-    def __init__(self, write_api, bucket, org):
+    def __init__(self, write_api, bucket, org, butter_filter):
         super().__init__('servo_subscriber')
 
         self.write_api = write_api
         self.bucket = bucket
         self.org = org
+        self.butter_filter = butter_filter
 
         qos_profile = QoSProfile(
             reliability=ReliabilityPolicy.BEST_EFFORT,
             history=HistoryPolicy.KEEP_LAST,
-            depth=10  
+            depth=10
         )
 
         self.subscription = self.create_subscription(
@@ -30,19 +44,38 @@ class ServoSubscriber(Node):
             qos_profile
         )
 
+        self.data_buffer = {"position": [], "velocity": [], "torque": []}
+        self.buffer_size = 50  # Minimalna ilość danych do filtrowania
+
     def listener_callback(self, msg):
-        point = (
-            influxdb_client.Point("my_measurement")
-            .field("position", msg.position)
-            .field("velocity", msg.velocity)
-            .field("torque", msg.torque)
-        )
-        self.write_api.write(bucket=self.bucket, org=self.org, record=point)
+        # Aktualizuj bufor danych
+        self.data_buffer["position"].append(msg.position)
+        self.data_buffer["velocity"].append(msg.velocity)
+        self.data_buffer["torque"].append(msg.torque)
 
-        self.get_logger().info('Position: "%f"' % msg.position)
-        self.get_logger().info('Velocity: "%f"' % msg.velocity)
-        self.get_logger().info('Torque: "%f"' % msg.torque)
+        # Zachowaj ostatnie `buffer_size` próbek
+        for key in self.data_buffer:
+            if len(self.data_buffer[key]) > self.buffer_size:
+                self.data_buffer[key].pop(0)
 
+        # Filtrowanie, gdy zgromadzono wystarczającą liczbę próbek
+        if len(self.data_buffer["position"]) >= self.buffer_size:
+            filtered_position = self.butter_filter.apply(self.data_buffer["position"])[-1]
+            filtered_velocity = self.butter_filter.apply(self.data_buffer["velocity"])[-1]
+            filtered_torque = self.butter_filter.apply(self.data_buffer["torque"])[-1]
+
+            # Zapis przefiltrowanych danych do bazy
+            point = (
+                influxdb_client.Point("my_measurement")
+                .field("position", filtered_position)
+                .field("velocity", filtered_velocity)
+                .field("torque", filtered_torque)
+            )
+            self.write_api.write(bucket=self.bucket, org=self.org, record=point)
+
+            self.get_logger().info(f'Filtered Position: {filtered_position:.2f}')
+            self.get_logger().info(f'Filtered Velocity: {filtered_velocity:.2f}')
+            self.get_logger().info(f'Filtered Torque: {filtered_torque:.2f}')
 
 class StateSubscriber(Node):
     def __init__(self):
@@ -76,6 +109,10 @@ def main(args=None):
     token = os.getenv("INFLUXDB_TOKEN")
     url = os.getenv("INFLUXDB_URL")
 
+    cutoff_frequency = 5.0  # Hz
+    sampling_rate = 50.0  # Hz (częstotliwość próbkowania)
+    butter_filter = ButterworthFilter(cutoff=cutoff_frequency, fs=sampling_rate, order=4)
+
     client = influxdb_client.InfluxDBClient(
         url=url,
         token=token,
@@ -85,7 +122,7 @@ def main(args=None):
 
     rclpy.init(args=args)
 
-    servo_subscriber = ServoSubscriber(write_api, bucket, org)
+    servo_subscriber = ServoSubscriber(write_api, bucket,org, butter_filter)
     state_subscriber = StateSubscriber()
 
     rclpy.spin(servo_subscriber)
