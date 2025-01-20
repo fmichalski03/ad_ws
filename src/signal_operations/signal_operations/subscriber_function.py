@@ -1,15 +1,6 @@
-import rclpy
-from rclpy.node import Node
-import influxdb_client
-from influxdb_client.client.write_api import SYNCHRONOUS
-from dotenv import load_dotenv
-import os
-
-from control_interfaces.msg import ServoState
-from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
-from vesc_msgs.msg import VescStateStamped
-
 from scipy.signal import butter, filtfilt
+import numpy as np
+import pandas as pd
 
 class ButterworthFilter:
     def __init__(self, cutoff, fs, order=4):
@@ -20,7 +11,6 @@ class ButterworthFilter:
 
     def apply(self, data):
         return filtfilt(self.b, self.a, data)
-
 
 class ServoSubscriber(Node):
     def __init__(self, write_api, bucket, org, butter_filter):
@@ -47,22 +37,32 @@ class ServoSubscriber(Node):
         self.data_buffer = {"position": [], "velocity": [], "torque": []}
         self.buffer_size = 50  # Minimalna ilość danych do filtrowania
 
+    def interpolate_missing_data(self, data):
+        # Wykryj brakujące wartości (np. None lub NaN)
+        series = pd.Series(data)
+        series = series.interpolate(method="linear", limit_direction="both")
+        return series.tolist()
+
     def listener_callback(self, msg):
         # Aktualizuj bufor danych
-        self.data_buffer["position"].append(msg.position)
-        self.data_buffer["velocity"].append(msg.velocity)
-        self.data_buffer["torque"].append(msg.torque)
+        self.data_buffer["position"].append(msg.position if not np.isnan(msg.position) else None)
+        self.data_buffer["velocity"].append(msg.velocity if not np.isnan(msg.velocity) else None)
+        self.data_buffer["torque"].append(msg.torque if not np.isnan(msg.torque) else None)
 
         # Zachowaj ostatnie `buffer_size` próbek
         for key in self.data_buffer:
             if len(self.data_buffer[key]) > self.buffer_size:
                 self.data_buffer[key].pop(0)
 
-        # Filtrowanie, gdy zgromadzono wystarczającą liczbę próbek
+        # Jeśli zgromadzono wystarczającą liczbę próbek, zastosuj interpolację i filtrowanie
         if len(self.data_buffer["position"]) >= self.buffer_size:
-            filtered_position = self.butter_filter.apply(self.data_buffer["position"])[-1]
-            filtered_velocity = self.butter_filter.apply(self.data_buffer["velocity"])[-1]
-            filtered_torque = self.butter_filter.apply(self.data_buffer["torque"])[-1]
+            interpolated_position = self.interpolate_missing_data(self.data_buffer["position"])
+            interpolated_velocity = self.interpolate_missing_data(self.data_buffer["velocity"])
+            interpolated_torque = self.interpolate_missing_data(self.data_buffer["torque"])
+
+            filtered_position = self.butter_filter.apply(interpolated_position)[-1]
+            filtered_velocity = self.butter_filter.apply(interpolated_velocity)[-1]
+            filtered_torque = self.butter_filter.apply(interpolated_torque)[-1]
 
             # Zapis przefiltrowanych danych do bazy
             point = (
@@ -109,8 +109,8 @@ def main(args=None):
     token = os.getenv("INFLUXDB_TOKEN")
     url = os.getenv("INFLUXDB_URL")
 
-    cutoff_frequency = 5.0  # Hz
-    sampling_rate = 50.0  # Hz (częstotliwość próbkowania)
+    cutoff_frequency = 10.0  # Hz
+    sampling_rate = 100  # Hz (częstotliwość próbkowania)
     butter_filter = ButterworthFilter(cutoff=cutoff_frequency, fs=sampling_rate, order=4)
 
     client = influxdb_client.InfluxDBClient(
