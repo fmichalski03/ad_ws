@@ -33,7 +33,7 @@ class QueryInflux:
         # query_api = client.query_api()
 
         query = (f'from(bucket:"ad_ws")\
-        |> range(start: -{self.timerange}h)\
+        |> range(start: -{self.timerange}s)\
         |> limit(n: {self.chunk_size})\
         |> filter(fn: (r) => r._field == "{self.field}")')
 

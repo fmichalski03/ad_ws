@@ -7,7 +7,7 @@ import random
 
 from rosidl_generator_c import basetype_to_c
 
-from app.database import QueryInflux
+from app.database import QueryInflux, result
 
 app = FastAPI()
 app.add_middleware(
@@ -44,29 +44,48 @@ async def websocket_endpoint(websocket: WebSocket, fields: str):
     fields = fields.split(",")
     try:
         i = 0
-        mock_feeds = [mock_data_feed(field) for field in fields]
+        # mock_feeds = [mock_data_feed(field) for field in fields]
         while True:
-            for field_nr, field in enumerate(fields):
-                mock_feed = mock_feeds[field_nr]
-                batch = []
-                for el in mock_feed[i:i + 5]:
-                    batch.append({field: el})
-                    # if len(batch) >= 10:
-                    #     break
-                i += 5
+            mock_feeds = [data_feed(field) for field in fields]
+            while True:
+                for field_nr, field in enumerate(fields):
+                    mock_feed = mock_feeds[field_nr]
+                    batch = []
+                    for el in mock_feed[i:i + 5]:
+                        batch.append({field: el})
+                        # if len(batch) >= 10:
+                        #     break
+                    i += 5
 
-                # print("Batch", batch)
-                if not batch:
-                    print("No data")
-                    # print(field_nr, field)
+                    # print("Batch", batch)
+                    if not batch:
+                        print("No data")
+                        # print(field_nr, field)
+                        await asyncio.sleep(0.05)
+                        continue
+
+                    await websocket.send_json(batch)
                     await asyncio.sleep(0.05)
-                    continue
-
-                await websocket.send_json(batch)
-                await asyncio.sleep(0.05)
-                print("Sent batch")
+                    print("Sent batch")
     except WebSocketDisconnect:
         print("Client disconnected")
+
+
+def data_feed(field):
+    query = QueryInflux(1, 100, field)
+    result = query.query()
+    results = []
+    for table in result:
+
+        for record in table.records:
+            results.append(
+                {"time": record.get_time().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], "value": record.get_value()})
+            # yield {"time": record.get_time().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], "value": record.get_value()}
+            # await asyncio.sleep(1)
+
+    # print(len(results))
+    return results
+
 
 
 def mock_data_feed(field):
