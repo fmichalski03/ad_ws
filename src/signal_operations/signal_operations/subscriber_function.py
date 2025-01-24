@@ -1,3 +1,12 @@
+import rclpy
+from rclpy.node import Node
+import influxdb_client
+from influxdb_client.client.write_api import SYNCHRONOUS
+from dotenv import load_dotenv
+import os
+from control_interfaces.msg import ServoState
+from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
+from vesc_msgs.msg import VescStateStamped
 from scipy.signal import butter, filtfilt
 import numpy as np
 import pandas as pd
@@ -78,8 +87,12 @@ class ServoSubscriber(Node):
             self.get_logger().info(f'Filtered Torque: {filtered_torque:.2f}')
 
 class StateSubscriber(Node):
-    def __init__(self):
+    def __init__(self, write_api, bucket, org):
         super().__init__('state_subscriber')
+
+        self.write_api = write_api
+        self.bucket = bucket
+        self.org = org
 
         qos_profile = QoSProfile(
             reliability=ReliabilityPolicy.BEST_EFFORT,
@@ -95,9 +108,22 @@ class StateSubscriber(Node):
         )
 
     def listener_callback(self, msg):
-        self.get_logger().info('Motor current: "%f"' % msg.state.current_motor)
-        self.get_logger().info('Speed: "%f"' % msg.state.speed)
-        self.get_logger().info('Voltage input: "%f"' % msg.state.voltage_input)
+        motor_current = msg.state.current_motor
+        speed = msg.state.speed
+        voltage_input = msg.state.voltage_input
+
+        point = (
+            influxdb_client.Point("state_measurement")
+            .field("motor_current", motor_current)
+            .field("speed", speed)
+            .field("voltage_input", voltage_input)
+        )
+        self.write_api.write(bucket=self.bucket, org=self.org, record=point)
+
+        self.get_logger().info(f'Motor current: {motor_current:.2f}')
+        self.get_logger().info(f'Speed: {speed:.2f}')
+        self.get_logger().info(f'Voltage input: {voltage_input:.2f}')
+
 
 
 def main(args=None):
@@ -122,8 +148,8 @@ def main(args=None):
 
     rclpy.init(args=args)
 
-    servo_subscriber = ServoSubscriber(write_api, bucket,org, butter_filter)
-    state_subscriber = StateSubscriber()
+    servo_subscriber = ServoSubscriber(write_api, bucket, org, butter_filter)
+    state_subscriber = StateSubscriber(write_api, bucket, org)
 
     rclpy.spin(servo_subscriber)
     rclpy.spin(state_subscriber)
