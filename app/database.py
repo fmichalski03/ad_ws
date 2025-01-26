@@ -1,4 +1,6 @@
 from collections import namedtuple
+from datetime import timedelta
+from time import sleep
 
 import influxdb_client
 from influxdb_client.client.write_api import SYNCHRONOUS
@@ -19,32 +21,28 @@ client = influxdb_client.InfluxDBClient(
     org=org
 )
 
-# Record = namedtuple('Record', ['time', 'field', 'value'])
-
 class QueryInflux:
-    def __init__(self, timerange = 10, chunk_size = 100, field = ""):
+    def __init__(self, timerange = 1, offset = 1, chunk_size = 100, field = ""):
         self.timerange = timerange
+        self.offset = offset
         self.chunk_size = chunk_size
         self.field = field
         self.query_api = client.query_api()
+        self.last_time = datetime.datetime.utcnow() - datetime.timedelta(seconds=timerange)
 
     def query(self):
         # Query database
-        # query_api = client.query_api()
+        start_time = (self.last_time + datetime.timedelta(milliseconds=1)).strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+
+        self.last_time = datetime.datetime.utcnow()
+        stop_time = self.last_time.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
         query = (f'from(bucket:"ad_ws")\
-        |> range(start: -{self.timerange}s)\
-        |> limit(n: {self.chunk_size})\
+        |> range(start: {start_time}, stop: {stop_time})\
         |> filter(fn: (r) => r._field == "{self.field}")')
 
+
         result = self.query_api.query(org=org, query=query)
-
-        # results = []
-        # for table in result:
-        #     for record in table.records:
-        #         # strftime view last 3 digits
-        #         results.append(Record(record.get_time().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], record.get_field(), record.get_value()))
-
         return result
 
 
@@ -59,14 +57,3 @@ class QueryInflux:
             for record in table.records:
                 results.append(record.get_value())
         return results
-
-
-query_influx = QueryInflux()
-result = query_influx.get_field_keys()
-print(result)
-
-
-# query_influx = QueryInflux(field='velocity')
-# query_influx.timerange = 1000
-# result = query_influx.query()
-# print(result)
