@@ -55,5 +55,11 @@ class QueryInflux:
         results = []
         for table in result:
             for record in table.records:
+                # if not record.get_value().matches("filtered_"):
                 results.append(record.get_value())
+
         return results
+
+
+# query = QueryInflux(field="position")
+# print(query.get_field_keys())

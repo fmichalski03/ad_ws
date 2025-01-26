@@ -10,6 +10,12 @@
     <div><canvas id="acquisitions"></canvas></div>
     <div id="button-container"></div>
 
+    <label for="maxDataPoints">Max Data Points:</label>
+    <input type="number" id="maxDataPoints" name="maxDataPoints" value="100">
+    <label for="numericField">Numeric Field:</label>
+    <input type="number" id="numericField" name="numericField" value="0">
+    <button onclick="updateNumericField()">Update Numeric Field</button>
+
     <script type="module" src="/static/plot.js"></script>
   </body>
 </html>

@@ -6,7 +6,9 @@
 let ws = null;
 let chart = null;
 let maxYValue = 0;
-const maxDataPoints = 1050;
+let maxDataPoints = 1050;
+let cutoff = 10;
+// const maxDataPointsElement = document.getElementById("maxDataPoints");
 
 function initializeChart() {
   const ctx = document.getElementById("acquisitions").getContext("2d");
@@ -28,7 +30,7 @@ function initializeChart() {
         padding: 50,
       },
       animation: false,
-      responsive: true,
+      // responsive: true,
       scales: {
         x: {
           type: 'time',
@@ -132,6 +134,36 @@ window.addEventListener('resize', () => {
     chart.resize();
   }
 });
+
+window.updateNumericField = function () {
+  const numericFieldValue = document.getElementById('numericField').value;
+  if (cutoff !== numericFieldValue) {
+    cutoff = numericFieldValue;
+    fetch('/subscriber', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ floatField: numericFieldValue }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+
+  maxDataPoints = document.getElementById('maxDataPoints').value;
+
+  if (chart.data.labels.length > maxDataPoints) {
+    chart.data.labels.splice(0, chart.data.labels.length-maxDataPoints+1)
+    chart.data.datasets[0].data.splice(0, chart.data.datasets[0].data.length-maxDataPoints+1)
+  }
+
+
+}
 
 function createButtons(fields) {
   const buttonContainer = document.getElementById("button-container");

@@ -22,13 +22,17 @@ class ButterworthFilter:
         return filtfilt(self.b, self.a, data)
 
 class ServoSubscriber(Node):
-    def __init__(self, write_api, bucket, org, butter_filter):
+    def __init__(self, write_api, bucket, org, butter_filter: ButterworthFilter):
         super().__init__('servo_subscriber')
 
         self.write_api = write_api
         self.bucket = bucket
         self.org = org
         self.butter_filter = butter_filter
+
+        # nadpisanie wartości cutoff dla ButterworthFilter
+        self.declare_parameter('butter_filter_cutoff', 10.0)
+        self.butter_filter.cutoff = int(self.get_parameter('butter_filter_cutoff').value)
 
         qos_profile = QoSProfile(
             reliability=ReliabilityPolicy.BEST_EFFORT,
@@ -74,6 +78,16 @@ class ServoSubscriber(Node):
             filtered_torque = self.butter_filter.apply(interpolated_torque)[-1]
 
             # Zapis przefiltrowanych danych do bazy
+            # point = (
+            #     influxdb_client.Point("my_measurement")
+            #     .field("position", interpolated_position[-1])
+            #     .field("velocity", interpolated_velocity[-1])
+            #     .field("torque", interpolated_torque[-1])
+            #     .field("filtered_position", filtered_position)
+            #     .field("filtered_velocity", filtered_velocity)
+            #     .field("filtered_torque", filtered_torque)
+            # )
+
             point = (
                 influxdb_client.Point("my_measurement")
                 .field("position", filtered_position)
@@ -83,8 +97,8 @@ class ServoSubscriber(Node):
             self.write_api.write(bucket=self.bucket, org=self.org, record=point)
 
             self.get_logger().info(f'Filtered Position: {filtered_position:.2f}')
-            self.get_logger().info(f'Filtered Velocity: {filtered_velocity:.2f}')
-            self.get_logger().info(f'Filtered Torque: {filtered_torque:.2f}')
+            # self.get_logger().info(f'Filtered Velocity: {filtered_velocity:.2f}')
+            # self.get_logger().info(f'Filtered Torque: {filtered_torque:.2f}')
 
 class StateSubscriber(Node):
     def __init__(self, write_api, bucket, org):

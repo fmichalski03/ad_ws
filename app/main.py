@@ -1,3 +1,7 @@
+from dataclasses import fields
+from time import sleep
+
+from pydantic import BaseModel
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -5,8 +9,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.requests import Request
 import asyncio
+import app.start as start
 
 from app.database import QueryInflux
+# from build.signal_operations.signal_operations.base import query
 
 app = FastAPI()
 app.add_middleware(
@@ -17,12 +23,36 @@ app.add_middleware(
 )
 
 # mounting static directory
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+templates = Jinja2Templates(directory="app/templates")
+
+class FloatFieldModel(BaseModel):
+    floatField: float
+
+id_of_subprocess = None
+
+@app.post("/subscriber")
+async def post(data: FloatFieldModel):
+    global id_of_subprocess
+    field_value = data.floatField
+    print(field_value)
+    if id_of_subprocess:
+        start.stop_subscriber_node(id_of_subprocess)
+
+    id_of_subprocess = start.start_subscriber_node(field_value)
+    return {"status": "success", "numericField": field_value}
+
+@app.get("/fields")
+async def fields():
+    query = QueryInflux()
+    fields = query.get_field_keys()
+    return {"fields": fields}
 
 
 @app.get("/", response_class=HTMLResponse)
 async def get(request: Request):
+    global id_of_subprocess
+    id_of_subprocess = start.start_subscriber_node(10.0)
     query = QueryInflux()
     fields = query.get_field_keys()
     return templates.TemplateResponse("index.html", {"request": request, "fields": fields})
