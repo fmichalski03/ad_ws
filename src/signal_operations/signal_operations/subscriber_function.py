@@ -31,8 +31,8 @@ class ServoSubscriber(Node):
         self.butter_filter = butter_filter
 
         # nadpisanie wartości cutoff dla ButterworthFilter
-        self.declare_parameter('butter_filter_cutoff', 10.0)
-        self.butter_filter.cutoff = int(self.get_parameter('butter_filter_cutoff').value)
+        self.declare_parameter('butter_filter_cutoff', butter_filter.cutoff)
+        self.butter_filter = ButterworthFilter(cutoff=self.get_parameter('butter_filter_cutoff').value, fs=100, order=4)
 
         print(self.butter_filter.cutoff)
         qos_profile = QoSProfile(
@@ -150,7 +150,7 @@ def main(args=None):
     token = os.getenv("INFLUXDB_TOKEN")
     url = os.getenv("INFLUXDB_URL")
 
-    cutoff_frequency = 10.0  # Hz
+    cutoff_frequency = 2.0  # Hz
     sampling_rate = 100  # Hz (częstotliwość próbkowania)
     butter_filter = ButterworthFilter(cutoff=cutoff_frequency, fs=sampling_rate, order=4)
 
