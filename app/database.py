@@ -1,3 +1,4 @@
+import re
 from collections import namedtuple
 from datetime import timedelta
 from time import sleep
@@ -39,7 +40,7 @@ class QueryInflux:
 
         query = (f'from(bucket:"ad_ws")\
         |> range(start: {start_time}, stop: {stop_time})\
-        |> filter(fn: (r) => r._field == "{self.field}")')
+        |> filter(fn: (r) => r._field == "{self.field}" or r._field == "filtered_{self.field}")')
 
 
         result = self.query_api.query(org=org, query=query)
@@ -55,5 +56,16 @@ class QueryInflux:
         results = []
         for table in result:
             for record in table.records:
-                results.append(record.get_value())
+                if not re.search("filtered_", record.get_value()):
+                    results.append(record.get_value())
+
         return results
+
+#
+# query = QueryInflux(field="position")
+# print(query.get_field_keys())
+#
+# for queries in query.query():
+#     print(queries)
+#     for table in queries:
+#         print(table.get_field(), table.get_value())
