@@ -10,8 +10,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.requests import Request
+from pytz import timezone
 import asyncio
 import app.start as start
+
 
 from app.database import QueryInflux
 # from build.signal_operations.signal_operations.base import query
@@ -54,7 +56,8 @@ async def fields():
 @app.get("/", response_class=HTMLResponse)
 async def get(request: Request):
     global id_of_subprocess
-    id_of_subprocess = start.start_subscriber_node(10.0)
+    if not id_of_subprocess:
+        id_of_subprocess = start.start_subscriber_node(10.0)
     query = QueryInflux()
     fields = query.get_field_keys()
     return templates.TemplateResponse("index.html", {"request": request, "fields": fields})
@@ -64,11 +67,9 @@ async def get(request: Request):
 async def websocket_endpoint(websocket: WebSocket, fields: str):
     await websocket.accept()
     fields = fields.split(",")
-    print("Connected, fields: ", fields)
-
     # create a QueryInflux object for each requested field
     query_handlers = []
-
+    i = 0
     for field in fields:
         query = QueryInflux(field=field)
         query_handlers.append(query)
@@ -76,14 +77,9 @@ async def websocket_endpoint(websocket: WebSocket, fields: str):
         while True:
             # feed is a list of tuples of lists :) containing the data from queries on each field and their filtered form
             feed = [data_feed(q_handler) for q_handler in query_handlers]
+            # print(len(feed[0][0]))
             for data, filtered_data in feed:
-                batch = []
-                batch.append(
-                    {field: data}
-                )
-                batch.append(
-                    {field + "_filtered": filtered_data}
-                )
+                batch = [{field: data}, {field + "_filtered": filtered_data}]
                 await websocket.send_json(batch)
             # for field_nr, field in enumerate(fields):
             #     sensor_feed = feed[field_nr]
@@ -114,14 +110,14 @@ def data_feed(query_handler: QueryInflux) -> Tuple[List, List]:
             if (re.search("filtered_", record.get_field())):
                 results_filtered.append(
                     {
-                    "time": record.get_time().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3],
-                    "value": record.get_value()
+                        "time": record.get_time().astimezone(timezone('Europe/Berlin')).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3],
+                        "value": record.get_value()
                     }
                 )
             else:
                 results.append(
                     {
-                        "time": record.get_time().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3],
+                        "time": record.get_time().astimezone(timezone('Europe/Berlin')).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3],
                         "value": record.get_value()
                     }
                 )
