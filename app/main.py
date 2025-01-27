@@ -128,3 +128,12 @@ def data_feed(query_handler: QueryInflux) -> Tuple[List, List]:
 
     # print(len(results))
     return results, results_filtered
+
+#on shutdown
+@app.on_event("shutdown")
+async def shutdown_event():
+    global id_of_subprocess
+    if id_of_subprocess:
+        start.stop_subscriber_node(id_of_subprocess)
+        id_of_subprocess = None
+        print("Subscriber node stopped")
