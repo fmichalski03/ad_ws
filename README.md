@@ -3,7 +3,6 @@
 ### FIlip Michalski
 ### Piotr Laskowski
 ### Paweł Mazurkiewicz
-### Kewin Jankowski
 ## Instal ROS2 Humble
 [link](https://docs.ros.org/en/humble/Installation.html)
 ## Clone repository
