@@ -34,6 +34,7 @@ class ServoSubscriber(Node):
         self.declare_parameter('butter_filter_cutoff', 10.0)
         self.butter_filter.cutoff = int(self.get_parameter('butter_filter_cutoff').value)
 
+        print(self.butter_filter.cutoff)
         qos_profile = QoSProfile(
             reliability=ReliabilityPolicy.BEST_EFFORT,
             history=HistoryPolicy.KEEP_LAST,
@@ -78,25 +79,25 @@ class ServoSubscriber(Node):
             filtered_torque = self.butter_filter.apply(interpolated_torque)[-1]
 
             # Zapis przefiltrowanych danych do bazy
-            # point = (
-            #     influxdb_client.Point("my_measurement")
-            #     .field("position", interpolated_position[-1])
-            #     .field("velocity", interpolated_velocity[-1])
-            #     .field("torque", interpolated_torque[-1])
-            #     .field("filtered_position", filtered_position)
-            #     .field("filtered_velocity", filtered_velocity)
-            #     .field("filtered_torque", filtered_torque)
-            # )
-
             point = (
                 influxdb_client.Point("my_measurement")
-                .field("position", filtered_position)
-                .field("velocity", filtered_velocity)
-                .field("torque", filtered_torque)
+                .field("position", interpolated_position[-1])
+                .field("velocity", interpolated_velocity[-1])
+                .field("torque", interpolated_torque[-1])
+                .field("filtered_position", filtered_position)
+                .field("filtered_velocity", filtered_velocity)
+                .field("filtered_torque", filtered_torque)
             )
+
+            # point = (
+            #     influxdb_client.Point("my_measurement")
+            #     .field("position", filtered_position)
+            #     .field("velocity", filtered_velocity)
+            #     .field("torque", filtered_torque)
+            # )
             self.write_api.write(bucket=self.bucket, org=self.org, record=point)
 
-            self.get_logger().info(f'Filtered Position: {filtered_position:.2f}')
+            # self.get_logger().info(f'Filtered Position: {filtered_position:.2f}')
             # self.get_logger().info(f'Filtered Velocity: {filtered_velocity:.2f}')
             # self.get_logger().info(f'Filtered Torque: {filtered_torque:.2f}')
 
@@ -164,6 +165,8 @@ def main(args=None):
 
     servo_subscriber = ServoSubscriber(write_api, bucket, org, butter_filter)
     state_subscriber = StateSubscriber(write_api, bucket, org)
+
+    print("Running subscriber")
 
     rclpy.spin(servo_subscriber)
     rclpy.spin(state_subscriber)

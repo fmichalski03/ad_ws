@@ -16,14 +16,7 @@ function initializeChart() {
     type: "line",
     data: {
       labels: [],
-      datasets: [
-        {
-          label: "",
-          data: [],
-          borderColor: "rgba(75, 192, 192, 1)",
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-        },
-      ],
+      datasets: [],
     },
     options: {
       layout: {
@@ -74,49 +67,57 @@ function initializeChart() {
 }
 
 function showChart(field) {
-  // Close websocket connection
   if (ws) {
     ws.close();
   }
 
-  // Destroy existing chart
   if (chart) {
     chart.destroy();
   }
 
-  // Initialize a new chart
   chart = initializeChart();
 
-  // Create a new connection with websocket
   ws = new WebSocket(`ws://localhost:8000/ws?fields=${field}`);
 
-  // Handle incoming WebSocket messages
   ws.onmessage = function (event) {
     const batch = JSON.parse(event.data);
 
+    // console.log(batch);
+
     batch.forEach((data) => {
-      Object.entries(data).forEach(([sensorName, sensorData]) => {
-        // Append new data
-        chart.data.datasets[0].label = sensorName;
-        chart.data.labels.push(sensorData.time);
-        chart.data.datasets[0].data.push(sensorData.value);
+        Object.entries(data).forEach(([fieldName, dataArray]) => {
+            let dataset = chart.data.datasets.find((ds) => ds.label === fieldName);
+            if (!dataset) {
+                dataset = {
+                    label: fieldName,
+                    data: [],
+                    borderColor: getRandomColor(),
+                    fill: false
+                };
+                chart.data.datasets.push(dataset);
+            }
 
-        if (sensorData.value > (maxYValue*1.1) || sensorData.value < -(maxYValue*1.1)) {
-          maxYValue = Math.abs(sensorData.value)
-          chart.options.scales.y.max = (maxYValue * 1.2);
-          chart.options.scales.y.min = -(maxYValue * 1.2);
-        }
+            dataArray.forEach((dataPoint) => {
+                dataset.data.push({
+                    x: dataPoint.time,
+                    y: dataPoint.value
+                });
 
-        // Remove old data if the limit is exceeded
-        if (chart.data.datasets[0].data.length > maxDataPoints) {
-          chart.data.labels.shift(); // Remove the oldest label
-          chart.data.datasets[0].data.shift(); // Remove the oldest data point
-        }
+                if (dataset.data.length > maxDataPoints) {
+                    dataset.data.shift();
+                }
 
-        // Re-render the chart
-        chart.update('none');
-      });
+                if (dataPoint.value > (maxYValue * 1.1) || dataPoint.value < -(maxYValue * 1.1)) {
+                    maxYValue = Math.abs(dataPoint.value);
+                    chart.options.scales.y.max = maxYValue * 1.2;
+                    chart.options.scales.y.min = -(maxYValue * 1.2);
+                }
+            });
+        });
     });
+
+    // Re-render the chart
+    chart.update('none');
   };
 
   ws.onerror = function (error) {
@@ -157,12 +158,15 @@ window.updateNumericField = function () {
 
   maxDataPoints = document.getElementById('maxDataPoints').value;
 
-  if (chart.data.labels.length > maxDataPoints) {
-    chart.data.labels.splice(0, chart.data.labels.length-maxDataPoints+1)
-    chart.data.datasets[0].data.splice(0, chart.data.datasets[0].data.length-maxDataPoints+1)
+  if (chart) {
+    chart.data.datasets.forEach((dataset) => {
+      if (dataset.data.length > maxDataPoints) {
+        dataset.data.splice(0, dataset.data.length - maxDataPoints);
+      }
+    });
+
+    chart.update('none');
   }
-
-
 }
 
 function createButtons(fields) {
@@ -174,13 +178,28 @@ function createButtons(fields) {
     button.setAttribute("data-field", field);
     button.classList.add("field-button");
 
-    // Add click event listener to the button
     button.addEventListener("click", () => {
       showChart(field);
     });
 
     buttonContainer.appendChild(button);
   });
+}
+
+function createStopButton() {
+  const buttonContainer = document.getElementById("button-container");
+
+  const button = document.createElement("button");
+  button.textContent = "Stop";
+  button.classList.add("field-button");
+
+  button.addEventListener("click", () => {
+    if (ws) {
+      ws.close();
+    }
+  });
+
+  buttonContainer.appendChild(button);
 }
 
 async function initialize() {
@@ -191,6 +210,7 @@ async function initialize() {
 
     // Create buttons for each field
     createButtons(fields);
+    createStopButton();
 
     // load first chart
     if (fields.length > 0) {
@@ -199,6 +219,15 @@ async function initialize() {
   } catch (error) {
     console.error("Failed to fetch fields:", error);
   }
+}
+
+let colorIndex = 0; // Track the index of the current color
+
+function getRandomColor() {
+    const colors = ["green", "red"]; // Define the color sequence
+    const color = colors[colorIndex % colors.length]; // Cycle through the colors
+    colorIndex++; // Increment the index for the next call
+    return color;
 }
 
 initialize();
