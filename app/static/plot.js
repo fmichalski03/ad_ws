@@ -40,11 +40,6 @@ function initializeChart() {
             display: true,
             text: 'Time'
           },
-          adapters: {
-            date: {
-              zone: 'UTC'
-            }
-          },
           ticks: {
             autoSkip: true,
             maxTicksLimit: 20
@@ -77,12 +72,10 @@ function showChart(field) {
 
   chart = initializeChart();
 
-  ws = new WebSocket(`ws://localhost:8000/ws?fields=${field}`);
+  ws = new WebSocket(`ws://${location.hostname}:${location.port}/ws?fields=${field}`);
 
   ws.onmessage = function (event) {
     const batch = JSON.parse(event.data);
-
-    // console.log(batch);
 
     batch.forEach((data) => {
         Object.entries(data).forEach(([fieldName, dataArray]) => {
@@ -191,7 +184,8 @@ function createStopButton() {
 
   const button = document.createElement("button");
   button.textContent = "Stop";
-  button.classList.add("field-button");
+  button.classList.add("stop-button");
+  button.id = "stop-button";
 
   button.addEventListener("click", () => {
     if (ws) {
@@ -210,9 +204,9 @@ async function initialize() {
 
     // Create buttons for each field
     createButtons(fields);
+    // load first chart
     createStopButton();
 
-    // load first chart
     if (fields.length > 0) {
       showChart(fields[0]);
     }
